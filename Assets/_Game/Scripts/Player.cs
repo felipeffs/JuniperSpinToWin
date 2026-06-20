@@ -7,6 +7,8 @@ namespace JuniperSpinToWin
         [SerializeField] private Rigidbody2D _rb;
         [SerializeField] private float _rotationSpeed = 90;
 
+        [SerializeField] private Health _health;
+
         [Header("Shoot")]
         [SerializeField] private Bullet _bulletPrefab;
         [SerializeField] private Transform _muzzlePoint;
@@ -20,6 +22,18 @@ namespace JuniperSpinToWin
         {
             _inputSystemActions = new InputSystem_Actions();
             _inputSystemActions.Player.Enable();
+        }
+
+        void OnEnable()
+        {
+            _health.OnDeath += Health_OnDeath;
+            _health.WhenTakingDamage += Health_WhenTakingDamage;
+        }
+
+        void OnDisable()
+        {
+            _health.OnDeath -= Health_OnDeath;
+            _health.WhenTakingDamage -= Health_WhenTakingDamage;
         }
 
         private void OnDestroy()
@@ -61,6 +75,16 @@ namespace JuniperSpinToWin
         {
             var rotation = _rb.rotation - _rotationSpeed * deltaTime;
             _rb.MoveRotation(rotation);
+        }
+
+        private void Health_WhenTakingDamage()
+        {
+            //
+        }
+
+        private void Health_OnDeath()
+        {
+            Destroy(gameObject);
         }
     }
 }
