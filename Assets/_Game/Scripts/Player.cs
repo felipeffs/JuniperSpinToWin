@@ -43,7 +43,7 @@ namespace JuniperSpinToWin
 
         private void Update()
         {
-            var wasShootPressed = _inputSystemActions.Player.Attack.WasPressedThisDynamicUpdate();
+            var wasShootPressed = _inputSystemActions.Player.Shoot.WasPressedThisDynamicUpdate();
 
             if (wasShootPressed)
             {
@@ -63,8 +63,7 @@ namespace JuniperSpinToWin
             if (elapsedTime >= _fireRate)
             {
                 _lastShootTime = Time.time;
-                var rotQuat = Quaternion.Euler(0, 0, _rb.rotation);
-                Instantiate(_bulletPrefab, _muzzlePoint.position, rotQuat);
+                Instantiate(_bulletPrefab, _muzzlePoint.position, transform.rotation);
 
                 var knockbackForceDir = -transform.up * _knockbackForce;
                 _rb.AddForce(knockbackForceDir, ForceMode2D.Impulse);
@@ -79,7 +78,7 @@ namespace JuniperSpinToWin
 
         private void Health_WhenTakingDamage()
         {
-            //
+            // flash or something
         }
 
         private void Health_OnDeath()
